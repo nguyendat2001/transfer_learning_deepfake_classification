@@ -58,7 +58,7 @@ def get_base(base_name, img_size, n_classes):
         base = tf.keras.applications.DenseNet121(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
     
     if base_name == "densenet201":
-        base = tf.keras.applications.densenet201(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.Densenet201(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
         
     if base_name == "efficientnetb0":
         base = tf.keras.applications.EfficientNetB0(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )

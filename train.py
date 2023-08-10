@@ -128,11 +128,19 @@ def train_val(args , save_dir):
 #     earlystopping = keras.callbacks.EarlyStopping(monitor='val_accuracy', 
 #                                                   patience=15)
     
+    step_train = train_generator.n//64
+    step_val = val_generator.n//64
+    
     print("[INFO] training network for {} epochs...".format(args.epochs ))
-    history = model.fit(train_generator,
-        validation_data=val_generator, 
-        epochs=args.epochs,
-        callbacks=[checkpoint])
+    # history = model.fit(train_generator,
+    #     validation_data=val_generator, 
+    #     epochs=args.epochs,
+    #     callbacks=[checkpoint])
+    history = model.fit_generator(generator=train_generator, steps_per_epoch=step_train,
+                    validation_data=val_generator,
+                    validation_steps=step_val,
+                    callbacks=[checkpoint],
+                    epochs=args.epochs)
 
     # eval
     model.save(os.path.join(figures_path,'model.h5'))
