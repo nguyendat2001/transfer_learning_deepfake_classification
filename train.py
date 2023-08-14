@@ -44,7 +44,7 @@ def f1_m(y_true, y_pred):
     recall = recall_m(y_true, y_pred)
     return 2*((precision*recall)/(precision+recall+K.epsilon()))
 
-n_class = 5
+n_class = 4
 
 # def read_data(path):
 #     def load_data(path):
@@ -132,10 +132,10 @@ def train_val(args , save_dir):
     step_val = val_generator.n//64
     
     print("[INFO] training network for {} epochs...".format(args.epochs ))
-    # history = model.fit(train_generator,
-    #     validation_data=val_generator, 
-    #     epochs=args.epochs,
-    #     callbacks=[checkpoint])
+    history = model.fit(train_generator,
+        validation_data=val_generator, 
+        epochs=args.epochs,
+        callbacks=[checkpoint])
     history = model.fit_generator(generator=train_generator, steps_per_epoch=step_train,
                     validation_data=val_generator,
                     validation_steps=step_val,
