@@ -80,7 +80,7 @@ def train_val(args , save_dir):
         
     figures_path = save_dir
     
-    model = base_network.get_base(args.base,args.im_size,5)
+    model = base_network.get_base(args.base,args.im_size,n_class)
     model.summary()
     # model.
     
