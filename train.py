@@ -80,7 +80,7 @@ def train_val(args , save_dir):
         
     figures_path = save_dir
     
-    model = base_network.get_base(args.base,args.im_size,n_class)
+    model = base_network.get_base(args.base,args.im_size,5)
     model.summary()
     # model.
     
@@ -132,10 +132,10 @@ def train_val(args , save_dir):
     step_val = val_generator.n//64
     
     print("[INFO] training network for {} epochs...".format(args.epochs ))
-    history = model.fit(train_generator,
-        validation_data=val_generator, 
-        epochs=args.epochs,
-        callbacks=[checkpoint])
+    # history = model.fit(train_generator,
+    #     validation_data=val_generator, 
+    #     epochs=args.epochs,
+    #     callbacks=[checkpoint])
     history = model.fit_generator(generator=train_generator, steps_per_epoch=step_train,
                     validation_data=val_generator,
                     validation_steps=step_val,
