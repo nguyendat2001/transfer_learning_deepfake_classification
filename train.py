@@ -117,7 +117,7 @@ def train_val(args , save_dir):
                                                     shuffle=True,seed=1234)
     
     opt = Adam(lr=0.001)
-    model.compile(optimizer = opt, loss = "categorical_crossentropy", metrics = ["accuracy","AUC",f1_m,precision_m, recall_m])
+    model.compile(optimizer = "adam", loss = "categorical_crossentropy", metrics = ["accuracy","AUC",f1_m,precision_m, recall_m])
     
     checkpoint_path = os.path.join(figures_path,"best_model.h5")
     checkpoint = keras.callbacks.ModelCheckpoint(checkpoint_path,
