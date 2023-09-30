@@ -20,12 +20,43 @@ import json
 import tensorflow 
 import tensorflow as tf
 from tensorflow.keras.layers import Dense, Activation,Dropout,Conv2D, MaxPooling2D,BatchNormalization
-from tensorflow.keras.optimizers import Adamax
 from tensorflow.keras.models import Model
 from sklearn.preprocessing import OneHotEncoder
 import base_network
 
 from keras import backend as K
+
+def plot_confusion_matrix(plot_confusion_matrix_path,cm, classes,
+                          normalize=True,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+        """Plots the confusion matrix."""
+        if normalize:
+          cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+          print("Normalized confusion matrix")
+        else:
+          print('Confusion matrix, without normalization')
+
+        plt.imshow(cm, interpolation='nearest', cmap=cmap)
+        plt.title(title)
+        plt.colorbar()
+        tick_marks = np.arange(len(classes))
+        plt.xticks(tick_marks, classes, rotation=55)
+        plt.yticks(tick_marks, classes)
+        fmt = '.2f' if normalize else 'd'
+        thresh = cm.max() / 2.
+        for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+          plt.text(j, i, format(cm[i, j], fmt),
+                    horizontalalignment="center",
+                    color="white" if cm[i, j] > thresh else "black")
+
+        plt.ylabel('True label')
+        plt.xlabel('Predicted label')
+        plt.tight_layout()
+        fig = plt.gcf()
+        fig.set_size_inches(18.5, 10.5)
+        fig.savefig(plot_confusion_matrix_path)
+        plt.close()
 
 def recall_m(y_true, y_pred):
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
@@ -86,9 +117,10 @@ def train_val(args , save_dir):
     
     BS = args.batch_size
     
-    aug = ImageDataGenerator(rescale=1./255, rotation_range=20, zoom_range=0.2,
-        width_shift_range=0.2, height_shift_range=0.2, shear_range=0.15, brightness_range=[1,1.5],
-        horizontal_flip=True, fill_mode="nearest")
+    # aug = ImageDataGenerator(rescale=1./255, rotation_range=20, zoom_range=0.2,
+    #     width_shift_range=0.2, height_shift_range=0.2, shear_range=0.15, brightness_range=[1,1.5],
+    #     horizontal_flip=True, fill_mode="nearest")
+    aug = ImageDataGenerator(rescale=1./255)
     
     aug_tmp = ImageDataGenerator(rescale=1./255)
     
