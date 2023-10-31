@@ -16,8 +16,6 @@ from tensorflow.keras.layers import Input, Add, Dense, Dropout, Activation, Zero
 from keras.models import Model
 from tensorflow.keras.initializers import glorot_uniform
 
-import InceptionResNetV2 
-
 def entry_flow(inputs):
     
     x = layers.Conv2D(32, 3, strides=2, padding='same')(inputs)
