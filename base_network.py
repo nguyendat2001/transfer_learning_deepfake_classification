@@ -16,6 +16,7 @@ from tensorflow.keras.layers import Input, Add, Dense, Dropout, Activation, Zero
 from keras.models import Model
 from tensorflow.keras.initializers import glorot_uniform
 
+import InceptionResNetV2 
 
 def entry_flow(inputs):
     
@@ -105,7 +106,7 @@ def exit_flow(x, num_classes=1000):
 
 def vgg16(img_size):
     model = Sequential()
-    model.add(Conv2D(input_shape=(img_size,img_size,3),filters=64,kernel_size=(3,3),padding="same", activation="relu"))
+    model.add(Conv2D(input_shape=(img_size,img_size,1),filters=64,kernel_size=(3,3),padding="same", activation="relu"))
     model.add(Conv2D(filters=64,kernel_size=(3,3),padding="same", activation="relu"))
     model.add(MaxPool2D(pool_size=(2,2),strides=(2,2)))
     model.add(Conv2D(filters=128, kernel_size=(3,3), padding="same", activation="relu"))
@@ -210,74 +211,75 @@ def get_base(base_name, img_size, n_classes):
         inputs = keras.Input(shape=(img_size, img_size, 3))
         outputs = exit_flow(middle_flow(entry_flow(inputs)))
         base = keras.Model(inputs, outputs)
-        # base = tf.keras.applications.Xception(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        # base = tf.keras.applications.Xception(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
        
     if base_name == "vgg16":
-        # base = tf.keras.applications.VGG16(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        # base = tf.keras.applications.VGG16(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         base = vgg16(img_size)
         
     if base_name == "vgg19":
-        base = tf.keras.applications.VGG19(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.VGG19(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         
     if base_name == "resnet50":
-        base = ResNet50((img_size,img_size,3))
+        base = ResNet50((img_size,img_size,1))
        
     if base_name == "resnet50v2":
-        base = tf.keras.applications.ResNet50V2(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.ResNet50V2(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         
     if base_name == "resnet101":
-        base = tf.keras.applications.ResNet101(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.ResNet101(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         
     if base_name == "resnet101v2":
-        base = tf.keras.applications.ResNet101V2(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.ResNet101V2(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         
     if base_name == "resnet152":
-        base = tf.keras.applications.ResNet152(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.ResNet152(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
        
     if base_name == "resnet152v2":
-        base = tf.keras.applications.ResNet152V2(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.ResNet152V2(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         
     if base_name == "inceptionv3":
-        base = tf.keras.applications.InceptionV3(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.InceptionV3(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         
     if base_name == "inceptionrestnetv2":
-        base = tf.keras.applications.InceptionResNetV2(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
-    
+        base = tf.keras.applications.InceptionResNetV2(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
+        base = InceptionResNetV2.net(img_size)
+
     if base_name == "mobilenet":
-        base = tf.keras.applications.MobileNet(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.MobileNet(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
        
     if base_name == "mobilenetv2":
-        base = tf.keras.applications.MobileNetV2(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.MobileNetV2(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         
     if base_name == "densenet121":
-        base = tf.keras.applications.DenseNet121(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.DenseNet121(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
     
     if base_name == "densenet201":
-        base = tf.keras.applications.Densenet201(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.Densenet201(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         
     if base_name == "efficientnetb0":
-        base = tf.keras.applications.EfficientNetB0(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.EfficientNetB0(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         
     if base_name == "efficientnetb1":
-        base = tf.keras.applications.EfficientNetB1(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.EfficientNetB1(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         
     if base_name == "efficientnetb2":
-        base = tf.keras.applications.EfficientNetB2(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.EfficientNetB2(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         
     if base_name == "efficientnetb3":
-        base = tf.keras.applications.EfficientNetB3(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.EfficientNetB3(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         
     if base_name == "efficientnetb4":
-        base = tf.keras.applications.EfficientNetB4(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.EfficientNetB4(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         
     if base_name == "efficientnetb5":
-        base = tf.keras.applications.EfficientNetB5(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.EfficientNetB5(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         
     if base_name == "efficientnetb6":
-        base = tf.keras.applications.EfficientNetB6(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.EfficientNetB6(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
         
     if base_name == "efficientnetb7":
-        base = tf.keras.applications.EfficientNetB7(include_top=False, weights="imagenet", input_shape=(img_size,img_size,3) )
+        base = tf.keras.applications.EfficientNetB7(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
     
     x = base.output
     x = Flatten()(x)

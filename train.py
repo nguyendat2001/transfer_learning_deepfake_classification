@@ -58,6 +58,9 @@ def plot_confusion_matrix(plot_confusion_matrix_path,cm, classes,
         fig.savefig(plot_confusion_matrix_path)
         plt.close()
 
+# def plotHis(save_path, history):
+
+
 def recall_m(y_true, y_pred):
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
     possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
@@ -135,7 +138,7 @@ def train_val(args , save_dir):
     val_generator = aug_tmp.flow_from_directory(directory=args.val,
                                                     target_size=(args.im_size, args.im_size),
                                                     # classes=['NORMAL','PNEUMONIA','TURBERCULOSIS'],
-                                                    # color_mode="grayscale",
+                                                    color_mode="grayscale",
                                                     batch_size=64,
                                                     class_mode="categorical",
                                                     shuffle=True,seed=1234)
@@ -143,13 +146,13 @@ def train_val(args , save_dir):
     test_generator = aug_tmp.flow_from_directory(directory=args.test,
                                                     target_size=(args.im_size, args.im_size),
                                                     # classes=['NORMAL','PNEUMONIA','TURBERCULOSIS'],
-                                                    # color_mode="grayscale",
+                                                    color_mode="grayscale",
                                                     batch_size=64,
                                                     class_mode="categorical",
                                                     shuffle=True,seed=1234)
     
     opt = Adam(lr=0.001)
-    model.compile(optimizer = "adam", loss = "categorical_crossentropy", metrics = ["accuracy","AUC",f1_m,precision_m, recall_m])
+    model.compile(optimizer = "adam", loss = "categorical_crossentropy", metrics = ["accuracy","AUC", f1_m ,precision_m , recall_m])
     
     checkpoint_path = os.path.join(figures_path,"best_model.h5")
     checkpoint = keras.callbacks.ModelCheckpoint(checkpoint_path,
@@ -194,6 +197,14 @@ def train_val(args , save_dir):
 
     pd.DataFrame(summaries).to_csv(os.path.join(figures_path, 'result.csv')) 
     
+    plt.plot(history.history['accuracy'])
+    plt.plot(history.history['val_accuracy'])
+    plt.title('model accuracy')
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'validation'], loc='upper left')
+    plt.savefig(figures_path +"accuracy.png")
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-sb', '--savedir_base', default='CovidSeg/save')
