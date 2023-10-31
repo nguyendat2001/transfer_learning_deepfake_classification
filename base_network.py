@@ -206,7 +206,7 @@ def ResNet50(input_shape = (50, 50, 3)):
 def get_base(base_name, img_size, n_classes):
     
     if base_name == "xception":
-        inputs = keras.Input(shape=(img_size, img_size, 3))
+        inputs = keras.Input(shape=(img_size,img_size,1))
         outputs = exit_flow(middle_flow(entry_flow(inputs)))
         base = keras.Model(inputs, outputs)
         # base = tf.keras.applications.Xception(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
