@@ -99,11 +99,6 @@ n_class = 4
 
 #     return pixels, labels
 
-def to_grayscale_then_rgb(image):
-    image = image[:,:,0]
-    rgb_batch = np.repeat(image[..., np.newaxis], 3, -1)
-    return rgb_batch
-
 def train_val(args , save_dir):
     
     # train_datagen = ImageDataGenerator(
@@ -127,9 +122,9 @@ def train_val(args , save_dir):
     # aug = ImageDataGenerator(rescale=1./255, rotation_range=20, zoom_range=0.2,
     #     width_shift_range=0.2, height_shift_range=0.2, shear_range=0.15, brightness_range=[1,1.5],
     #     horizontal_flip=True, fill_mode="nearest")
-    aug = ImageDataGenerator(rescale=1./255,preprocessing_function=to_grayscale_then_rgb)
+    aug = ImageDataGenerator(rescale=1./255)
     
-    aug_tmp = ImageDataGenerator(rescale=1./255,preprocessing_function=to_grayscale_then_rgb)
+    aug_tmp = ImageDataGenerator(rescale=1./255)
     
     train_generator = aug.flow_from_directory(directory=args.train, 
                                                     target_size=(args.im_size, args.im_size),
@@ -156,7 +151,7 @@ def train_val(args , save_dir):
                                                     shuffle=True,seed=1234)
     
     opt = Adam(lr=0.001)
-    model.compile(optimizer = "adam", loss = "categorical_crossentropy", metrics = ["accuracy","AUC", f1_m ,precision_m , recall_m])
+    model.compile(optimizer = keras.optimizers.Adam(lr=0.0001), loss = "categorical_crossentropy", metrics = ["accuracy","AUC", f1_m ,precision_m , recall_m])
     
     checkpoint_path = os.path.join(figures_path,"best_model.h5")
     checkpoint = keras.callbacks.ModelCheckpoint(checkpoint_path,
