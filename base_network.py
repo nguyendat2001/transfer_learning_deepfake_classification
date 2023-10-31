@@ -240,10 +240,6 @@ def get_base(base_name, img_size, n_classes):
         
     if base_name == "inceptionv3":
         base = tf.keras.applications.InceptionV3(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
-        
-    if base_name == "inceptionrestnetv2":
-        base = tf.keras.applications.InceptionResNetV2(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
-        base = InceptionResNetV2.net(img_size)
 
     if base_name == "mobilenet":
         base = tf.keras.applications.MobileNet(include_top=False, weights="imagenet", input_shape=(img_size,img_size,1) )
