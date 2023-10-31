@@ -142,7 +142,7 @@ def train_val(args , save_dir):
     val_generator = aug_tmp.flow_from_directory(directory=args.val,
                                                     target_size=(args.im_size, args.im_size),
                                                     # classes=['NORMAL','PNEUMONIA','TURBERCULOSIS'],
-                                                    color_mode="grayscale",
+                                                    # color_mode="grayscale",
                                                     batch_size=64,
                                                     class_mode="categorical",
                                                     shuffle=True,seed=1234)
@@ -150,7 +150,7 @@ def train_val(args , save_dir):
     test_generator = aug_tmp.flow_from_directory(directory=args.test,
                                                     target_size=(args.im_size, args.im_size),
                                                     # classes=['NORMAL','PNEUMONIA','TURBERCULOSIS'],
-                                                    color_mode="grayscale",
+                                                    # color_mode="grayscale",
                                                     batch_size=64,
                                                     class_mode="categorical",
                                                     shuffle=True,seed=1234)
